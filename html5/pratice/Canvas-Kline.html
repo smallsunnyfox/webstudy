@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas练习之K线图</title>
+    <script>
+            window.loadStockData = function (r) {
+                var
+                    NUMS = 30,
+                    data = r.data;
+                if (data.length > NUMS) {
+                    data = data.slice(data.length - NUMS);
+                }
+                data = data.map(function (x) {
+                    return {
+                        date: x[0],
+                        open: x[1],
+                        close: x[2],
+                        high: x[3],
+                        low: x[4],
+                        vol: x[5],
+                        change: x[6]
+                    };
+                });
+                window.drawStock(data);
+            }
+
+            window.drawStock = function (data) {
+                var
+                    canvas = document.getElementById('stock-canvas'),
+                    width = canvas.width,
+                    height = canvas.height,
+                    ctx = canvas.getContext('2d');
+                console.log(JSON.stringify(data[0])); // {"date":"20150602","open":4844.7,"close":4910.53,"high":4911.57,"low":4797.55,"vol":62374809900,"change":1.69}
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillText('Test Canvas', 10, 10);
+
+                /*首先我们找到该日的最高和最低价，垂直地连成一条直线；
+                然后再找出当日的开市和收市价，把这二个价位连接成一条狭长的长方柱体。
+                假如当日或某一周期的收市价较开市价为高（即低开高收），我们便以红色来表示
+                如果当日或某一周期的收市价较开市价为低（即高开低收），我们则以绿色表示
+                */
+                var
+                    base_price = data[0].open,//价格基准点
+                    base_y = 100,//y轴基准点
+                    scale = 4,//缩小比例
+                    single_width_half = 3,// 日K的宽度/2
+                    single_width_solo = single_width_half * 2,// 日K的宽度（盒子宽度）
+                    single_margin = 2,// 日K的间隔（盒子之间的间隔）
+                    single_width = single_width_solo + single_margin;// 日K加间隔的宽度
+                for (var i in data) { 
+                    if (data[i].close > data[i].open) { // 低开高收，涨！红色。
+                        ctx.fillStyle = 'red';
+                        ctx.strokeStyle = 'red';
+                    } else if (data[i].close < data[i].open) { // 高开低收，跌！绿色。
+                        ctx.fillStyle = 'green';
+                        ctx.strokeStyle = 'green';
+                    } else { // 收盘等于开盘，横盘！灰色。
+                        ctx.fillStyle = 'gray';
+                        ctx.strokeStyle = 'gray';
+                    }
+                    //开收高点
+                    var open_close_high = data[i].open > data[i].close ? data[i].open : data[i].close;
+                    //开收低点
+                    var open_close_low = data[i].open < data[i].close ? data[i].open : data[i].close;
+
+                    //画开收矩形，开市和收市价作为矩形的上下点
+                    var rect_y = base_y - (open_close_high - base_price) / scale;//矩形左上角的 y 坐标
+                    var rect_height = (Math.abs(data[i].open - data[i].close)) / scale;//矩形的高度
+                    ctx.fillRect(20 + single_width * i, rect_y, single_width_solo, rect_height);
+                    //fillRect(矩形左上角的 x 坐标,矩形左上角的 y 坐标,矩形的宽度,矩形的高度)
+                    // 画高直线，当高点大于开收高点，才会有高直线
+                    if (data[i].high > open_close_high) {
+                        var high_line_start = base_y - (data[i].high - base_price) / scale;//起点Y坐标
+                        var high_line_end = base_y - (open_close_high - base_price) / scale;//终点Y坐标
+                        ctx.beginPath();//起始一条路径
+                        ctx.moveTo(20 + single_width_half + single_width * i, high_line_start);//把路径移动到画布中的指定点，不创建线条
+                        ctx.lineTo(20 + single_width_half + single_width * i, high_line_end);//添加一个新点，然后在画布中创建从该点到最后指定点的线条
+                        ctx.stroke();//绘制已定义的路径
+                    }
+
+                    // 画低直线，当低点大于开收低点，才会有低直线
+                    if (data[i].low < open_close_low) {
+                        var low_line_start = base_y - (open_close_high - base_price) / scale;
+                        var low_line_end = base_y - (data[i].low - base_price) / scale;
+                        ctx.beginPath();
+                        ctx.moveTo(20 + single_width_half + single_width * i, low_line_start);
+                        ctx.lineTo(20 + single_width_half + single_width * i, low_line_end);
+                        ctx.stroke();
+                    }
+                }
+            };
+
+            // 加载最近30个交易日的K线图数据:
+            var js = document.createElement('script');
+            js.src = 'http://img1.money.126.net/data/hs/kline/day/history/2015/0000001.json?callback=loadStockData&t=' + Date.now();
+            document.getElementsByTagName('head')[0].appendChild(js);
+    </script>
+</head>
+<body>
+    <canvas id="stock-canvas" width="300" height="200" style="border: 1px solid #ccc; margin-top: 15px;">
+    </canvas><br>
+    <a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/00143449990549914b596ac1da54a228a6fa9643e88bc0c000#0">练习地址</a>
+</body>
+</html>
