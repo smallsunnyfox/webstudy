@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue的指令系统练习</title>
+    <style type="text/css">
+        .box{
+            width:300px;
+            height:300px;
+            background-color: red;
+        }
+        .active{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2>{{msg}}</h2>
+        <p v-text = "msg"></p> 
+        <div v-html="msg2"></div>  
+        <div v-text="1+1"></div>
+        <div v-if="isShow">澳门赌场开业了</div>
+        <div v-if="!isShow">澳门赌场倒闭了</div>
+        <div v-if="Math.random() > 0.5">
+            已显示
+        </div>
+        <div v-else>
+            已隐藏
+        </div>
+        <div v-show = "isShow">显示</div>
+        <div v-show = "!isShow">隐藏</div>
+        <div class="box" v-bind:aaa="text" v-bind:class="{active:Math.random()>0.5}"></div>
+    </div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el:"#app",
+            data:function(){
+                return {
+                    msg:'指令系统',
+                    msg2:'<h2>指令系统2</h2>',
+                    isShow:true,
+                    text:'哈哈哈'
+                }
+            }  
+        });
+    </script>
+</body>
+</html>

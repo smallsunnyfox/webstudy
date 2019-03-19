@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Page Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--vue的模板语法{{}}双大括号插值 react{} -->
+        <h2>{{msg}}</h2>
+        <h3>{{1+1}}</h3><!--也可以插入运算-->
+        <h4>{{isTrue}}</h4><!--插入布尔值-->
+        <h1>{{str.split('').reverse().join('')}}</h1><!--甚至可以插入一些JS的DOM 操作-->
+        <h2>{{ 1>2 ? '真的':'假的'}}</h2><!--插入三元运算符-->
+        <h3>{{'hahahahah'}}</h3><!--插入字符串-->
+        <h3>{{ {name:'zhangsan'} }}</h3><!--插入对象-->
+
+    </div>
+    <!--1.引包-->
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    
+    <script>
+        //2.创建实例化对象
+        var vm = new Vue({
+            el:'#app',
+            data:{//数据发生改变时，视图也会发生改变，简言之，数据驱动视图
+                //既可以是一个对象,也可以是一个函数
+                msg:'黄瓜',
+                isTrue:1==1,
+                str:'Hello Vue'
+            },
+            //如果template中定义了内容 那么优先加载template,如果没有定义内容，加载的是#app的模板
+            template:''
+        });
+        console.log(vm);
+        console.log(vm.$el);//===document.getElementById('app')
+        console.log(vm.$data);
+        //除了数据属性 vue实例还暴漏了一些有用的实例属性和方法。他们都有前缀$
+    </script>
+</body>
+</html>
