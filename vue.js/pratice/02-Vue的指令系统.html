@@ -30,7 +30,22 @@
         </div>
         <div v-show = "isShow">显示</div>
         <div v-show = "!isShow">隐藏</div>
-        <div class="box" v-bind:aaa="text" v-bind:class="{active:Math.random()>0.5}"></div>
+        <div class="box" @click="clickHandler" v-bind:aaa="text" v-bind:class="{active:isGreen}"></div>
+        
+        <ul>
+            <li v-for= '(item,index) in menuLists'>
+                <h5 v-text="item.id"></h5>
+                <h3>{{item.name}}</h3>
+                <em>{{item.price}}</em>
+            </li>
+        </ul>
+
+        <ul>
+            <li v-for="(value,key) in person">
+                {{key}}==={{value}}
+            </li>
+        </ul>
+
     </div>
     <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
     <script type="text/javascript">
@@ -41,9 +56,26 @@
                     msg:'指令系统',
                     msg2:'<h2>指令系统2</h2>',
                     isShow:true,
-                    text:'哈哈哈'
+                    isGreen:false,
+                    text:'哈哈哈',
+                    menuLists:[
+                        {id:1,name:'大腰子',price:70},
+                        {id:2,name:'宫爆鸡丁',price:40},
+                        {id:3,name:'炸黄花鱼',price:60}
+                    ],
+                    person:{
+                        name:'大白',
+                        age:20,
+                        fav:'av'
+                    }
                 }
-            }  
+            },
+            methods:{
+                clickHandler(e){
+                    console.log(this);//this指的是当前的实例化对象
+                    this.isGreen = !this.isGreen;//数据属性改变的时候重新渲染DOM
+                }
+            } 
         });
     </script>
 </body>
