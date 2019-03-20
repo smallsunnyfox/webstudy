@@ -335,6 +335,125 @@ img.onload = function() {
 | 能够以 .png 或 .jpg 格式保存结果图像               | 复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快） |
 | 最适合图像密集型的游戏，其中的许多对象会被频繁重绘 | 不适合游戏应用                                          |
 
+### 五、H5 MathML
 
+MathML与 HTML相似度很高，但是比较繁琐。它继承了角括号和双标签（<标签>内容</标签>）的用法。
 
- 
+HTML5 可以在文档中使用 MathML 元素，对应的标签是 <math>...</math> 。
+
+MathML 是数学标记语言，是一种基于XML（标准通用标记语言的子集）的标准，用来在互联网上书写数学符号和公式的置标语言。
+
+### 六、H5拖放
+
+- 拖放的目的是可以让你将某个对象放置到你想要放置的位置。  
+
+- 拖放（Drag 和 drop）是 HTML5 标准的组成部分。 任何元素都能够拖放。 
+
+- 拖放是一种常见的特性，即抓取对象以后拖到另一个位置。 
+
+  - 为了使元素可拖动，把 draggable 属性设置为 true 
+
+    ```
+    <!--首先设置draggable="true"使元素可拖动-->
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+    	<img id="drag1" draggable="true" ondragstart="drag(event)" ></div>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    ```
+
+  - ondragstart 和 setData()
+
+    ondragstart 属性调用了一个函数，drag(event)，它规定了被拖动的数据。
+
+    dataTransfer.setData() 方法设置被拖数据的数据类型和值
+
+  - ondragover
+
+    ondragover 事件规定在何处放置被拖动的数据
+
+    默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。
+
+    这要通过调用 ondragover 事件的 event.preventDefault() 方法
+
+  - ondrop
+
+    当放置被拖数据时，会发生 drop 事件 
+
+  ```
+  <script type="text/javascript">
+  	function allowDrop(ev) {// ondragover 调用
+  		ev.preventDefault();
+  	}    
+  	function drag(ev) {// ondragstart 调用
+  		ev.dataTransfer.setData("Text", ev.target.id);
+  	}
+  	function drop(ev) {// ondrop 调用
+  		ev.preventDefault();
+  		var data = ev.dataTransfer.getData("Text");
+  		ev.target.appendChild(document.getElementById(data));
+  	}
+  </script>
+  ```
+
+### 七、H5物理定位
+
+- HTML5 Geolocation（地理定位）用于定位用户的位置。
+
+  Geolocation 通过请求一个位置信息，用户同意后，浏览器会返回一个包含经度和维度的位置信息！
+
+- HTML5 Geolocation API 用于获得用户的地理位置。
+
+  鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
+
+- #### getCurrentPosition() 
+  - navigator.geolocation. getCurrentPosition() 方法来获得用户的位置
+
+  - navigator.geolocation 表示浏览器是否支持获取地理位置
+
+  - getCurrentPosition() 方法的第二个参数用于处理错误 
+
+    - PERMISSION_DENIED - 用户不允许地理定位
+
+    - POSITION_UNAVAILABLE - 无法获取当前位置
+
+    - TIMEOUT - 操作超时
+
+    - UNKNOWN_ERROR - 未知错误
+
+      ```
+      function showError(error)
+        {
+        switch(error.code) 
+          {
+          case error.PERMISSION_DENIED:
+            x.innerHTML="用户拒绝对获取地理位置的请求。"
+            break;
+          case error.POSITION_UNAVAILABLE:
+            x.innerHTML="位置信息是不可用的。"
+            break;
+          case error.TIMEOUT:
+            x.innerHTML="请求用户地理位置超时。"
+            break;
+          case error.UNKNOWN_ERROR:
+            x.innerHTML="未知错误。"
+            break;
+          }
+        }
+      ```
+
+  - 如果getCurrentPosition()运行成功，则向参数showPosition中规定的函数返回一个coordinates对象，这个对象始终会返回 latitude、longitude 以及 accuracy 属性。如果可用，则会返回其他下面的属性。 
+
+    | 属性                    | 描述                   |
+    | ----------------------- | ---------------------- |
+    | coords.latitude         | 十进制数的纬度         |
+    | coords.longitude        | 十进制数的经度         |
+    | coords.accuracy         | 位置精度               |
+    | coords.altitude         | 海拔，海平面以上以米计 |
+    | coords.altitudeAccuracy | 位置的海拔精度         |
+    | coords.heading          | 方向，从正北开始以度计 |
+    | coords.speed            | 速度，以米/每秒计      |
+    | timestamp               | 响应的日期/时间        |
+
+- #### watchPosition() 
+
+  -  navigator.geolocation.watchPosition() 返回用户的当前位置，并继续返回用户移动时的更新位置（就像汽车上的 GPS）
+  -  clearWatch() - 停止 watchPosition() 方法 

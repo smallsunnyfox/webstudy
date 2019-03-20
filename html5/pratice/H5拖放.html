@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>拖放</title>
+    <style type="text/css">
+        #div1,
+        #div2 {
+            float: left;
+            width: 100px;
+            height: 100px;
+            padding:12px;
+            margin:10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+    <script type="text/javascript">
+        function allowDrop(ev) {//调用 ondragover 事件的 event.preventDefault() 方法设置允许放置
+            ev.preventDefault();
+        }    
+
+        function drag(ev) {
+            ev.dataTransfer.setData("Text", ev.target.id);
+        }
+
+        function drop(ev) {//进行放置
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("Text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <!--1.首先设置draggable="true"使元素可拖动-->
+        <img src="1.png" draggable="true" ondragstart="drag(event)" id="drag1" width="100" height="100"></div>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+</body>
+
+</html>

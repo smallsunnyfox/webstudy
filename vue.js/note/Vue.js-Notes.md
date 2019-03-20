@@ -6,6 +6,8 @@
 
 **渐进式**JavaScript框架
 
+![](Vue设计模式.png)
+
 #### (2)前端框架和库的区别
 
 Jquery 封装一些DOM操作和ajax类请求
@@ -70,9 +72,11 @@ $ npm install vue
 
 - 指令中封装了一些DOM行为，结合属性作为一个暗号，暗号有对应的值，根据不同的值，框架会进行相关DOM操作的绑定
 
-- v-xxx 指令演示
+- **v-xxx 指令演示**
 
   - v-text：元素的innerText属性，必须是双标签 跟{{}} 效果是一样的 使用较少
+
+  - v-once：一次性插值`<span v-once>这个将不会改变: {{ msg }}</span>` 
 
   - v-html：元素的innerHtml
 
@@ -97,4 +101,26 @@ $ npm install vue
       因此，如果需要非常频繁地切换，则使用v-show较好；如果在运行时条件甚少改变，则使用v-if较好
 
   - v-bind：绑定标签上的属性（内置属性和自定义属性）简写为 `：`
+
+  - v-on:原生事件名 = '函数名'  简写为 `@`
+
+  - v-for = "(item,index) in menuLists" 遍历数组
+
+    v-for = "(value,key) in object" 遍历对象
+
+  - v-model
+
+    用于双向数据绑定，只会体现在UI控件中，只能应用在有value属性的元素 
+
+    实现原理：v-bind:value 结合 v-on:input 
+
+#### (6)Vue组件
+
+- ##### 局部组件
+
+  声名局部组件，挂载到父组件上，在父组件中任意使用（声子，挂子，用子）
+
+- ##### 
+
+#### (7)
 
