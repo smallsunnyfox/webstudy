@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue全局组件的使用</title>
+</head>
+<body>
+    <div id="app">
+        <App></App>
+    </div>
+    <template id="App">
+        <div>
+            <Vheader></Vheader>
+            <div>
+                <Vaside></Vaside>
+                <Vcontent></Vcontent>
+            </div>
+        </div>
+    </template>
+    <template id="Vheader">
+        <div>
+            我是头部组件
+        </div>
+    </template>
+    <template id="Vaside">
+        <div>
+            我是侧边栏组件
+            <Vbtn></Vbtn>
+        </div>
+    </template>
+    <template id="Vcontent">
+        <div>
+            我是内容组件
+            <Vbtn></Vbtn>
+            <Vbtn></Vbtn>
+            <Vbtn></Vbtn>
+        </div>
+    </template>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+    <script type="text/javascript">
+        Vue.component('Vbtn',{
+            template:'<button>按钮</button>'
+        });
+        var Vheader = {
+            data(){
+                return{
+
+                }
+            },
+            template:'#Vheader',
+            methods: {
+                
+            }
+        }
+        var Vaside = {
+            template:'#Vaside'
+        }
+        var Vcontent = {
+            template:'#Vcontent'
+        }
+        
+        
+        //1.声子
+        var App = {
+            template:'#App',
+            components:{
+                Vheader,
+                Vaside,
+                Vcontent
+            }
+        };
+        new Vue({
+            el:'#app',
+            data() {
+                return {
+                    
+                }
+            },
+            components:{
+                //2.挂子
+                App
+            },
+            //3.用子
+            //template:'<App />'
+        });
+    </script>
+</body>
+</html>
