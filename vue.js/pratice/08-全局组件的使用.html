@@ -3,6 +3,40 @@
 <head>
     <meta charset="utf-8">
     <title>Vue全局组件的使用</title>
+    <style type="text/css">
+        .default{
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            color: #606266;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .primary{
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+        }
+        .success{
+            color: #fff;
+            background-color: #67c23a;
+            border-color: #67c23a;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -31,15 +65,21 @@
     <template id="Vcontent">
         <div>
             我是内容组件
-            <Vbtn></Vbtn>
-            <Vbtn></Vbtn>
-            <Vbtn></Vbtn>
+            <Vbtn type="primary">主要按钮</Vbtn>
+            <Vbtn type="success">成功按钮</Vbtn>
         </div>
+    </template>
+    <template id="Vbtn">
+            <button class="default" :class="type">
+                <slot>主要按钮</slot>
+            </button>
     </template>
     <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
     <script type="text/javascript">
         Vue.component('Vbtn',{
-            template:'<button>按钮</button>'
+            //插槽 内置组件 slot作为承载分发内容的出口
+            template:'#Vbtn',
+            props:['type']
         });
         var Vheader = {
             data(){

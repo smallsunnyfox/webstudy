@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>具名插槽的使用</title>
+</head>
+<body>
+    <div id="app">
+        <App></App>
+    </div>
+    <template id="myli">
+        <li>
+            预留的第一个坑
+            <slot name="two"></slot>
+            预留的第二个坑
+            <slot name="three"></slot>
+        </li>
+    </template>
+    <template id="App">
+        <div>
+            <ul>
+                <myli>
+                    <h2 slot="two">我是第一个坑</h2>
+                    <h3 slot="three">我是第二个坑</h3>
+                </myli>
+            </ul>
+        </div>   
+    </template>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+    <script type="text/javascript">
+        Vue.component('myli',{
+            template:'#myli'
+        });
+        var App = {
+            template:'#App'
+        }
+        new Vue({
+            el:'#app',
+            components:{
+                App
+            }
+        });
+
+    </script>
+</body>
+</html>
