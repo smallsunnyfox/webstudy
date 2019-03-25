@@ -147,5 +147,99 @@ $ npm install vue
 
 #### (9)过滤器
 
+- 作用：为页面中的数据添油加醋
 
+- 局部过滤器
+
+  ```
+  var bpp = {
+      data(){
+      	return{
+      	price:0,
+      	msg:'hello filter'
+      	}
+      },
+      template:'#bpp',
+      filters:{
+      //1.声名局部过滤器
+      	myCurrentcy:function(value){
+      		return "￥"+ value
+      	}
+      }
+  }
+  ```
+
+- 全局过滤器
+
+  ```
+  Vue.filter('myReverse',function(value,arg){
+  	return arg + " " + value.split('').reverse().join('');
+  });
+  ```
+
+
+- 过滤器的使用
+
+  ```
+  <!--使用局部过滤器{{ 数据 | 过滤器的名字 }}-->
+  <h3>{{ price| myCurrentcy}}</h3>
+  <!--使用全局过滤器-->
+  <h4>{{ msg | myReverse('很爱很爱你') }}</h4>
+  ```
+
+#### (10)Vue watch
+
+- watch 监听的是单个属性
+- 基本的数据类型是简单监视
+- 复杂的数据类型是深度监视 Object Array
+
+#### (11)计算属性
+
+- 计算属性默认只有getter，但是也可以定义setter，主要用于多个属性的监听
+
+- 对于复杂逻辑，应当使用**计算属性** 
+
+- 方法和计算属性的区别在于**计算属性是基于它们的依赖进行缓存的**。只在相关依赖发生改变时它们才会重新求值，这就意味着只要 `message` 还没有发生改变，多次访问 `reversedMessage` 计算属性会立即返回之前的计算结果，而不必再次执行函数。 
+
+- 简单实例
+
+  ```
+  <div id="example">
+    <p>Original message: "{{ message }}"</p>
+    <p>Computed reversed message: "{{ reversedMessage }}"</p>
+  </div>
+  
+  var vm = new Vue({
+    el: '#example',
+    data: {
+    	message: 'Hello'
+    },
+    computed: {
+      // 计算属性的 getter
+      reversedMessage: function () {
+        // this 指向 vm 实例
+        return this.message.split('').reverse().join('')
+      }
+    }
+  })
+  ```
+
+#### (12)组件的生命周期
+
+- beforeCreate 	组件创建之前调用
+- created                   组件创建之后调用 可以用于操作后端的数据
+- beforeMount         挂载数据到DOM之前会调用
+- mounted                挂载数据到DOM之后会调用 可以用于操作DOM
+- beforeUpdate       在更新之前调用 可以用于获取原始的DOM
+- updated                 在更新之后调用 可以用于获取最新的DOM
+- activated                在激活时调用
+- deactivated            在被停用时调用
+- beforeDestroy       在销毁之前调用
+- destroyed               在销毁之后调用
+
+Vue内置组件<keep-alive></keep-alive>
+
+能在组件的切换过程中将状态保留在内存中。防止重复渲染DOM,消耗内存。
+
+#### (13)
 
