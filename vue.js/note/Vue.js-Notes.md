@@ -1,12 +1,10 @@
-# Vue Notes
-
-### Vue基础
+## Vue基础
 
 #### (1)Vue介绍
 
-**渐进式**JavaScript框架
-
-![](Vue设计模式.png)
+- **渐进式**JavaScript框架
+- 设计模式为MVVM
+- 核心库只关注于视图层
 
 #### (2)前端框架和库的区别
 
@@ -16,7 +14,7 @@ art-template 模板引擎 渲染DOM
 
 Vue框架 全方位功能齐全：简易的DOM体验 + 发请求 + 模板引擎 + 路由功能
 
-#### (3)vue起步
+#### (3)Vue起步
 
 npm 安装
 
@@ -50,7 +48,7 @@ $ npm install vue
 </script>
 ```
 
-#### (4)插值表达式
+#### (4)Vue插值表达式
 
 ```
 <div id="app">
@@ -145,7 +143,7 @@ $ npm install vue
 - 内置组件slot作为承载分发内容的出口
 - 具名插槽
 
-#### (9)过滤器
+#### (9)Vue过滤器
 
 - 作用：为页面中的数据添油加醋
 
@@ -187,13 +185,13 @@ $ npm install vue
   <h4>{{ msg | myReverse('很爱很爱你') }}</h4>
   ```
 
-#### (10)Vue watch
+#### (10)Vue监听器
 
 - watch 监听的是单个属性
 - 基本的数据类型是简单监视
 - 复杂的数据类型是深度监视 Object Array
 
-#### (11)计算属性
+#### (11)Vue计算属性
 
 - 计算属性默认只有getter，但是也可以定义setter，主要用于多个属性的监听
 
@@ -240,6 +238,3 @@ $ npm install vue
 Vue内置组件<keep-alive></keep-alive>
 
 能在组件的切换过程中将状态保留在内存中。防止重复渲染DOM,消耗内存。
-
-#### (13)
-
