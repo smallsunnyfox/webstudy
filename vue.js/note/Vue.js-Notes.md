@@ -102,15 +102,73 @@ $ npm install vue
 
   - v-on:原生事件名 = '函数名'  简写为 `@`
 
+    - v-on事件修饰符
+
+      .stop
+
+      .prevent
+
+      .capture
+
+      .self
+
+      .once
+
+      .passive
+
+      ```
+      <!-- 阻止单击事件继续传播 -->
+      <a v-on:click.stop="doThis"></a>
+      
+      <!-- 提交事件不再重载页面 -->
+      <form v-on:submit.prevent="onSubmit"></form>
+      
+      <!-- 修饰符可以串联 -->
+      <!--v-on:click.prevent.self 会阻止所有的点击，而 
+      	v-on:click.self.prevent 只会阻止对元素自身的点击。-->
+      <a v-on:click.stop.prevent="doThat"></a>
+      v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。
+      <!-- 只有修饰符 -->
+      <form v-on:submit.prevent></form>
+      
+      <!-- 添加事件监听器时使用事件捕获模式 -->
+      <!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+      <div v-on:click.capture="doThis">...</div>
+      
+      <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+      <!-- 即事件不是从内部元素触发的 -->
+      <div v-on:click.self="doThat">...</div>
+      
+      <!-- 点击事件将只会触发一次 -->
+      <a v-on:click.once="doThis"></a>
+      
+      <!--Vue 还对应 addEventListener 中的 passive 选项提供了 .passive 修饰符。-->
+      <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
+      <!-- 而不会等待 `onScroll` 完成  -->
+      <!-- 这其中包含 `event.preventDefault()` 的情况 -->
+      <div v-on:scroll.passive="onScroll">...</div>
+      ```
+
+    - v-on按键修饰符
+
+    - 系统修饰键  .ctrl  .alt  .shif  .meta
+
+      .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件
+
+      鼠标按钮修饰符 .left  .right  .middle
+
   - v-for = "(item,index) in menuLists" 遍历数组
 
     v-for = "(value,key) in object" 遍历对象
 
   - v-model
 
-    用于双向数据绑定，只会体现在UI控件中，只能应用在有value属性的元素 
-
-    实现原理：v-bind:value 结合 v-on:input 
+    - 用于双向数据绑定，只会体现在UI控件中，只能应用在有value属性的元素 
+    - 实现原理：v-bind:value 结合 v-on:input 
+    - 修饰符
+      - .lazy 在“change”时而非“input”时更新 
+      - .number 自动将用户的输入值转为数值类型 
+      - .trim 自动过滤用户输入的首尾空白字符 
 
 #### (6)Vue组件
 
