@@ -11,7 +11,11 @@
                 v-for="post in posts" 
                 v-bind:key="post.id" 
                 v-bind:post="post"
-                v-on:enlarge-text="postFontSize += 0.1">
+                v-on:enlarge-text="onEnlargeText"><!--在父组件中绑定自定义的事件-->
+                <!--
+                    v-on:enlarge-text="postFontSize += $event 
+                    通过 $event 访问 $emit 的第二个参数
+                -->
             </blog-post>
         </div>
     </div>
@@ -22,15 +26,16 @@
                 template: '\
                     <div class="blog-post">\
                         <h3>{{ post.title }}</h3>\
-                        <button v-on:click="changeFontSize()">\
+                        <button v-on:click="changeFontSize">\
                         Enlarge text\
                         </button>\
                         <div v-html="post.content"></div>\
                     </div>\
                 ',
+                //在子组件中触发原生的事件，在函数中使用this.$emit触发自定义的事件
                 methods: {
                     changeFontSize(){
-                        this.$emit('enlarge-text');
+                        this.$emit('enlarge-text',1);
                     }
                 },
             })
@@ -45,6 +50,12 @@
                     ],
                     postFontSize:1
                 }
+            },
+            methods:{
+                onEnlargeText(val){
+                    this.postFontSize += val;
+                    console.log(val);
+                }   
             }
         });               
     </script>
