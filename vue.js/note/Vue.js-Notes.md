@@ -24,13 +24,13 @@ $ npm install vue
 
 引入Vue.js
 
-```
+```html
 <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
 ```
 
 创建实例化对象
 
-```
+```html
 <div id="#app">
 	<h2>{{msg}}</h2>
 </div>
@@ -50,7 +50,7 @@ $ npm install vue
 
 #### (4)Vue插值表达式
 
-```
+```html
 <div id="app">
         <!--vue的模板语法{{}}双大括号插值 react{} -->
         <h2>{{msg}}</h2>
@@ -116,7 +116,7 @@ $ npm install vue
 
       .passive
 
-      ```
+      ```html
       <!-- 阻止单击事件继续传播 -->
       <a v-on:click.stop="doThis"></a>
       
@@ -180,11 +180,55 @@ $ npm install vue
 
   Vue.component() 第一个参数是组件的名字，第二个参数是options
 
-  ```
+  ```javascript
   Vue.component('Vbtn',{
   	template:'<button>按钮</button>'
   });
   ```
+
+- ##### 在组件上使用v-model
+
+  - 将其 `value` 特性绑定到一个名叫 `value` 的 prop 上
+  - 在其 `input` 事件被触发时，将新的值通过自定义的 `input` 事件抛出
+
+  ```javascript
+  Vue.component('custom-input', {
+    props: ['value'],
+    template: '
+      <input
+        v-bind:value="value"
+        v-on:input="$emit('input', $event.target.value)"
+      >
+    '
+  })
+  ```
+  - ##### 自定义组件的v-model
+
+    一个组件上的 v-model 默认会利用名为 value 的 prop 和名为 input 的事件，但是像单选框、复选框等类型的输入控件可能会将 value 特性用于不同的目的。model 选项可以用来避免这样的冲突：
+
+    ```javascript
+    Vue.component('base-checkbox', {
+      model: {
+        prop: 'checked',
+        event: 'change'
+      },
+      props: {
+        checked: Boolean
+      },
+      template: '
+        <input
+          type="checkbox"
+          v-bind:checked="checked"
+          v-on:change="$emit('change', $event.target.checked)"
+        >
+      '
+    })
+    //现在在这个组件上使用 v-model 的时候
+    <base-checkbox v-model="lovingVue"></base-checkbox>
+    //这里的 lovingVue 的值将会传入这个名为 checked 的 prop。同时当 <base-checkbox> 触发一个 //change 事件并附带一个新的值的时候，这个 lovingVue 的属性将会被更新。
+    ```
+
+- ##### 
 
 #### (7)Vue组件通信
 
@@ -196,10 +240,97 @@ $ npm install vue
   - 在父组件中绑定自定义的事件
   - 在子组件中触发原生的事件，在函数中使用this.$emit() 触发自定义的事件
 
+- .sync修饰符
+
 #### (8)Vue插槽
 
-- 内置组件slot作为承载分发内容的出口
-- 具名插槽
+- ##### 插槽内容：
+
+  - 内置组件slot作为承载分发内容的出口
+  - 插槽内可以包含任何模板代码，包括 HTML ，甚至其它的组件 
+
+- ##### 编译作用域：
+
+  - 父级模板里的所有内容都是在父级作用域中编译的
+  - 子模板里的所有内容都是在子作用域中编译的
+
+- ##### 后备内容：
+
+  有时为一个插槽设置具体的后备 (也就是默认的) 内容是很有用的，它只会在没有提供内容的时候被渲染 
+
+- ##### 具名插槽：
+
+  - <slot> 元素有一个特殊的特性：name。这个特性可以用来定义额外的插槽
+  - 一个不带 name 的 <slot> 出口会带有隐含的名字“default”
+  - 在向具名插槽提供内容的时候，我们可以在一个 <template> 元素上使用 v-slot 指令，并以 v-slot 的参数的形式提供其名称
+  - 具名插槽 `v-slot:` 可以缩写为 `#`  , 该缩写只在其有参数的时候才可用 
+
+- ##### 作用域插槽
+
+  - 可以让插槽内容能够访问子组件中才有的数据 
+
+  ```HTML
+  //为了让 user 在父级的插槽内容可用，我们可以将 user 作为一个 <slot> 元素的特性绑定上去
+  <span>
+    <slot v-bind:user="user">
+      {{ user.lastName }}
+    </slot>
+  </span>
+  //绑定在 <slot> 元素上的特性被称为插槽 prop。
+  //现在在父级作用域中，我们可以给 v-slot 带一个值来定义我们提供的插槽 prop 的名字
+  //在这个例子中，我们选择将包含所有插槽 prop 的对象命名为 slotProps
+  <current-user>
+    <template v-slot:default="slotProps">
+      {{ slotProps.user.firstName }}
+    </template>
+  </current-user>
+  ```
+
+- ##### 默认插槽
+
+  - 当被提供的内容*只有*默认插槽时，组件的标签才可以被当作插槽的模板来使用 
+
+    ```html
+    <current-user v-slot:default="slotProps">
+      {{ slotProps.user.firstName }}
+    </current-user>
+    ```
+
+  - 默认插槽的缩写语法
+
+    ```html
+    <current-user v-slot="slotProps">
+      {{ slotProps.user.firstName }}
+    </current-user>
+    ```
+
+  - 默认插槽的缩写语法**不能**和具名插槽混用，因为它会导致作用域不明确
+
+    ```HTML
+    <!-- 无效，会导致警告 -->
+    <current-user v-slot="slotProps">
+      {{ slotProps.user.firstName }}
+      <template v-slot:other="otherSlotProps">
+        slotProps is NOT available here
+      </template>
+    </current-user>
+    ```
+
+  - 多个插槽正确写法
+
+    只要出现多个插槽，请始终为所有的插槽使用完整的基于 <template> 的语法
+
+    ```html
+    <current-user>
+      <template v-slot:default="slotProps">
+        {{ slotProps.user.firstName }}
+      </template>
+    
+      <template v-slot:other="otherSlotProps">
+        ...
+      </template>
+    </current-user>
+    ```
 
 #### (9)Vue过滤器
 
