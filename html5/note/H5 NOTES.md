@@ -457,3 +457,201 @@ MathML 是数学标记语言，是一种基于XML（标准通用标记语言的�
 
   -  navigator.geolocation.watchPosition() 返回用户的当前位置，并继续返回用户移动时的更新位置（就像汽车上的 GPS）
   -  clearWatch() - 停止 watchPosition() 方法 
+
+### 八、H5 Video
+
+HTML5 规定了一种通过 video 元素来包含视频的标准方法。
+
+#### video标签的属性
+
+| 属性     | 值                   | 描述                                                         |
+| -------- | -------------------- | ------------------------------------------------------------ |
+| autoplay | autoplay             | 如果出现该属性，则视频在就绪后马上播放。                     |
+| controls | controls             | 如果出现该属性，则向用户显示控件，比如播放按钮。             |
+| height   | pixels               | 设置视频播放器的高度。                                       |
+| loop     | loop                 | 如果出现该属性，则当媒介文件完成播放后再次开始播放。         |
+| muted    | muted                | 如果出现该属性，视频的音频输出为静音。                       |
+| poster   | URL                  | 规定视频正在下载时显示的图像，直到用户点击播放按钮。         |
+| preload  | auto  metadata  none | 如果出现该属性，则视频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。 |
+| src      | URL                  | 要播放的视频的 URL。                                         |
+| width    | pixels               | 设置视频播放器的宽度。                                       |
+
+#### [HTML DOM Video 对象](https://www.w3cschool.cn/jsref/dom-obj-video.html)
+
+### 九、H5 Audio
+
+HTML5 提供了播放音频文件的标准。
+
+通过使用HTML5中的audio功能，你可以实现与flash相同的功能，即回放、跳转、缓冲等
+
+#### audio标签的属性
+
+| 属性     | 值                   | 描述                                                        |
+| -------- | -------------------- | ----------------------------------------------------------- |
+| autoplay | autoplay             | 如果出现该属性，则音频在就绪后马上播放。                    |
+| controls | controls             | 如果出现该属性，则向用户显示音频控件（比如播放/暂停按钮）。 |
+| loop     | loop                 | 如果出现该属性，则每当音频结束时重新开始播放。              |
+| muted    | muted                | 如果出现该属性，则音频输出为静音。                          |
+| preload  | auto  metadata  none | 规定当网页加载时，音频是否默认被加载以及如何被加载。        |
+| src      | URL                  | 规定音频文件的 URL。                                        |
+
+#### [HTML DOM Audio 对象](https://www.w3cschool.cn/jsref/dom-obj-audio.html)
+
+### 十、H5 Input 类型
+
+| 类型名         | 作用                                                         | example                                                      |
+| :------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| color          | 选取颜色                                                     | <input type="color" name="favcolor">                         |
+| date           | 选择一个日期                                                 | 生日: <input type="date" name="bday">                        |
+| datetime       | 选择一个日期（UTC 时间）                                     | 生日 (日期和时间): <input type="datetime" name="bdaytime">   |
+| datetime-local | 选择一个日期和时间 (无时区)                                  | 生日 (日期和时间): <input type="datetime-local" name="bdaytime"> |
+| email          | 用于应该包含 e-mail 地址的输入域                             | E-mail: <input type="email" name="email">                    |
+| month          | 选择一个月份                                                 | 生日 (月和年): <input type="month" name="bdaymonth">         |
+| number         | 用于应该包含数值的输入域                                     | 数量 ( 1 到 5 之间 ): <input type="number" name="quantity" min="1" max="5" value="3" step="1"> |
+| range          | 用于应该包含一定范围内数字值的输入域,显示为滑动条            | <input type="range" name="points" min="1" max="10" step="1" value="3"> |
+| search         | 用于搜索域                                                   | Search Google: <input type="search" name="googlesearch">     |
+| tel            | 定义输入电话号码字段                                         | 电话号码: <input type="tel" name="usrtel">                   |
+| time           | 允许你选择一个时间                                           | 选择时间: <input type="time" name="usr_time">                |
+| url            | 用于应该包含 URL 地址的输入域。  在提交表单时，会自动验证 url 域的值。 | 添加您的主页: <input type="url" name="homepage">             |
+| week           | 选择周和年                                                   | 选择周: <input type="week" name="week_year">                 |
+
+### 十一、H5表单
+
+#### (1) H5表单元素
+
+H5新的表单元素：<datalist>	<keygen>	<output>
+
+##### datalist元素
+
+<datalist> 元素规定输入域的选项列表。
+
+<datalist> 属性规定 form 或 input 域应该拥有自动完成功能。当用户在自动完成域中开始输入时，浏览器应该在该域中显示填写的选项：
+
+使用 <input> 元素的列表属性与 <datalist> 元素绑定.
+
+##### keygen元素
+
+<keygen> 元素的作用是提供一种验证用户的可靠方法。
+
+<keygen>标签规定用于表单的密钥对生成器字段。
+
+当提交表单时，会生成两个键，一个是私钥，一个公钥。
+
+私钥（private key）存储于客户端，公钥（public key）则被发送到服务器。公钥可用于之后验证用户的客户端证书（client certificate）。
+
+##### output元素
+
+<output> 元素用于不同类型的输出，比如计算或脚本输出 
+
+#### (2) H5表单属性
+
+<form>新属性：
+
+- autocomplete 自动完成功能 
+
+  适用于 text, search, url, telephone, email, password, datepickers, range 以及 color
+
+- novalidate 规定在提交表单时不应该验证 form 或 input 域 
+
+<input>新属性：
+
+- autocomplete 自动完成功能 
+
+  适用于 text, search, url, telephone, email, password, datepickers, range 以及 color
+
+- autofocus 规定在页面加载时，域自动地获得焦点。 
+
+- form 规定输入域所属的一个或多个表单 
+
+- formaction 用于描述表单提交的URL地址  会覆盖<form> 元素中的action属性 
+
+  适用于 type="submit" 和 type="image" 
+
+- formenctype 描述了表单提交到服务器的数据编码 覆盖 form 元素的 enctype 属性 
+
+  适用于 type="submit" 和 type="image" 
+
+- formmethod 定义了表单提交的方式  覆盖了 <form> 元素的的method 属性 
+
+  适用于 type="submit" 和 type="image"
+
+- formnovalidate 描述了 <input> 元素在表单提交时无需被验证 会覆盖 <form> 元素的novalidate属性 
+
+  适用于 type="submit"一起使用 
+
+- formtarget 指定一个名称或一个关键字来指明表单提交数据接收后的展示  会覆盖 <form>元素的target属性 
+
+  适用于 type="submit" 和 type="image"配合使用 
+
+- height and width 规定用于 image 类型的 <input> 标签的图像高度和宽度  
+
+  只适用于 image 类型的<input> 
+
+- list 规定输入域的 datalist。datalist 是输入域的选项列表 
+
+- min and max：min、max 和 step 属性用于为包含数字或日期的 input 类型规定限定（约束）
+
+  适用于 date pickers、number 以及 range  
+
+- multiple 规定<input> 元素中可选择多个值 
+
+  适用于 email 和 file 
+
+- pattern (regexp) 描述了一个正则表达式用于验证<input> 元素的值 
+
+  适用于 text, search, url, tel, email, 和 password. 
+
+- placeholder 描述输入域所期待的值  
+
+  适用于 text, search, url, tel, email, 和 password 
+
+- required  规定必须在提交之前填写输入域  
+
+  适用于 text, search, url, telephone, email, password, date pickers, number, checkbox, radio 以及 file 
+
+- step 为输入域规定合法的数字间隔 
+
+  适用于 number, range, date, datetime, datetime-local, month, time 和 week 
+
+### 十二、H5语义元素
+
+#### (1)什么是语义元素
+
+- 语义= 意义
+- 语义元素 = 元素的意义
+- 一个语义元素能够清楚的描述其意义给浏览器和开发者 
+
+#### (2)H5中新的语义元素
+
+- <header> 描述了文档的头部区域 ，注意用于定义内容的介绍展示区域 
+
+- <nav> 定义导航链接的部分 
+
+- <section> 定义文档中的节（section、区段）。比如章节、页眉、页脚或文档中的其他部分 
+
+- <article> 定义独立的内容 
+
+- <aside> 定义页面主区域内容之外的内容（比如侧边栏），内容应与主区域的内容相关
+
+- <figcaption> 定义 <figure> 元素的标题 ，应该被置于 "figure" 元素的第一个或最后一个子元素的位置 
+
+- <figure> 规定独立的流内容（图像、图表、照片、代码等等） 
+
+- <footer> 描述了文档的底部区域 ，应该包含它的包含元素 
+
+  一个页脚通常包含文档的作者，著作权信息，链接的使用条款，联系信息等 
+
+#### (3)H5语义元素的使用
+
+为了让这些块及元素在所有版本的浏览器中生效，需要在样式表文件中设置一下属性 
+
+```css
+ header, section, footer, aside, nav, article, figure
+ { 
+ display: block; 
+ } 
+```
+
+可以使用HTML5 Shiv Javascript脚本来解决IE8 及更早IE版本的兼容问题 
+
+在浏览器小于IE9版本时引入html5shiv.js文件 
