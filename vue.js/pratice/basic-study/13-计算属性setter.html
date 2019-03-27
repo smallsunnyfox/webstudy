@@ -15,7 +15,7 @@
             width:250px;
             margin: 20px 20px;
             padding:10px 5px;
-            border-radius: 3px; 
+            border-radius: 5px; 
             cursor: pointer;
             background-color: lightblue;
         }
@@ -35,7 +35,7 @@
             </li>
         </ul>
     </div>
-    <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+    <script type="text/javascript" src="../node_modules/vue/dist/vue.min.js"></script>
     <script type="text/javascript">
         var musicData = [
             {id:1,name:'关于我爱你',author:'沈以诚',songSrc:'./static/关于我爱你.mp3'},
@@ -54,13 +54,28 @@
             //计算属性默认只有getter
             //setter也可以来定义
             computed:{
+                /*
                 getCurrentSongSrc:function(){
                     return this.musicData[this.currentIndex].songSrc;
+                }
+                */
+                getCurrentSongSrc:{
+                    set:function(newV){
+                        console.log(newV);
+                        this.currentIndex = newV;
+                    },
+                    get:function(){
+                        return this.musicData[this.currentIndex].songSrc;
+                    }
                 }
             },
             methods: {
                 clickHandler(val){
-                    this.currentIndex = val;
+                    //直接修改的数据属性
+                    //this.currentIndex = val;
+                    //点语法 set方法和get方法
+                    console.log(this.getCurrentSongSrc);
+                    this.getCurrentSongSrc = val;
                 }   
             }
         });
