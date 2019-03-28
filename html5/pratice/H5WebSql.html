@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>H5 Web Sql</title>
+</head>
+<body>
+    <input type="text" id="logText" placeholder="输入纪录" />&nbsp;<button onclick="insertLog()">添加记录</button>&nbsp;<button onclick="readLog()">查询记录</button>
+    <br>
+    <div id="status" name="status"></div>
+    <script type="text/javascript">
+        var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+        var logid = 0;
+        db.transaction(function (tx) {  
+            tx.executeSql("DROP TABLE LOGS");
+            tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+        });
+        function insertLog(){
+            var logtext = document.getElementById("logText").value;
+            console.log();
+            db.transaction(function (tx) {  
+                tx.executeSql('INSERT INTO LOGS (id,log) VALUES (?, ?)', [logid, logtext]);
+            });
+            logid++;
+            document.getElementById("logText").value='';
+        };
+
+        function readLog(){
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM LOGS', [], function (tx, results) {
+                    var len = results.rows.length, i;
+                    msg = "查询记录条数: " + len ;
+                    document.querySelector('#status').innerHTML = msg;
+
+                    for (i = 0; i < len; i++) {
+                        alert("第"+results.rows.item(i).id+"条记录："+results.rows.item(i).log);
+                    }
+
+                }, null);
+            });
+        }
+    </script>
+</body>
+</html>

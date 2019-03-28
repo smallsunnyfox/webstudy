@@ -289,7 +289,7 @@ img.onload = function() {
 ```
 ### 四、H5 内联 SVG
 
-#### SVG 介绍
+#### (1)SVG 介绍
 
 - SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
 - SVG 用于描述二维矢量图形的一种图形格式
@@ -298,7 +298,7 @@ img.onload = function() {
 - SVG 是万维网联盟的标准
 - SVG 与 DOM 和 XSL 之类的 W3C 标准是一个整体
 
-#### SVG 好处
+#### (2)SVG 好处
 
 - SVG 图像可通过文本编辑器来创建和修改
 - SVG 图像可被搜索、索引、脚本化或压缩
@@ -306,7 +306,7 @@ img.onload = function() {
 - SVG 图像可在任何的分辨率下被高质量地打印
 - SVG 可在图像质量不下降的情况下被放大
 
-#### SVG 用法
+#### (3)SVG 用法
 
 ```
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="190">
@@ -315,7 +315,7 @@ img.onload = function() {
 </svg>
 ```
 
-#### SVG 和 Canvas 的区别
+#### (4)SVG 和 Canvas 的区别
 
 - SVG是使用XML描述2D图形的**语言**
 
@@ -325,7 +325,7 @@ img.onload = function() {
 
   Canvas 是逐像素进行渲染的。在 canvas 中，一旦图形被绘制完成，它就不会继续得到浏览器的关注。如果其位置发生变化，那么整个场景也需要重新绘制，包括任何或许已被图形覆盖的对象。 
 
-#### SVG 和 Canvas 的比较
+#### (5)SVG 和 Canvas 的比较
 
 | Canvas                                             | SVG                                                     |
 | :------------------------------------------------- | ------------------------------------------------------- |
@@ -655,3 +655,498 @@ H5新的表单元素：<datalist>	<keygen>	<output>
 可以使用HTML5 Shiv Javascript脚本来解决IE8 及更早IE版本的兼容问题 
 
 在浏览器小于IE9版本时引入html5shiv.js文件 
+
+### 十三、H5 Web存储
+
+检测浏览器是否支持Web存储
+
+```javascript
+if(typeof(Storage)!=="undefined")        
+  {        
+  // 是的! 支持 localStorage  sessionStorage 对象!         
+  // 一些代码.....         
+  }        
+else        
+  {        
+  // 抱歉! 不支持 web 存储。         
+  }
+```
+
+#### (1) localStorage
+
+- localStorage 对象存储的数据没有时间限制。第二天、第二周或下一年之后，数据依然可用。
+
+- 使用
+
+  - 保存数据：localStorage.setItem(key,value);
+  - 读取数据：localStorage.getItem(key);
+  - 删除单个数据：localStorage.removeItem(key);
+  - 删除所有数据：localStorage.clear();
+  - 得到某个索引的key：localStorage.key(index);
+
+  ```javascript
+  // 存储
+  localStorage.sitename="xxxxx"; 
+  // 查找
+  document.getElementById("result").innerHTML="网站名：" + localStorage.sitename;
+  // 移除
+  localStorage.removeItem("lastname");
+  ```
+
+- 键/值对通常以字符串存储，你可以按自己的需要转换该格式。
+
+#### (2) sessionStorage
+
+- sessionStorage 方法针对一个 session 进行数据存储。当用户关闭浏览器窗口后，数据会被删除 
+
+  ```javascript
+  function clickCounter()
+  {
+  	if(typeof(Storage)!=="undefined")
+  	{
+  		if (sessionStorage.clickcount)
+  		{
+  			sessionStorage.clickcount=Number(sessionStorage.clickcount)+1;
+  		}
+  		else
+  		{
+  			sessionStorage.clickcount=1;
+  		}
+  		document.getElementById("result").innerHTML="在这个会话中你已经点击了该按钮 " + 			sessionStorage.clickcount + " 次 ";
+  	}
+  	else
+  	{
+  		document.getElementById("result").innerHTML="抱歉，您的浏览器不支持 web 存储";
+  	}
+  }
+  ```
+
+#### (3) HTML5 Web SQL 数据库
+
+- Web SQL 是在浏览器上模拟数据库，可以使用JS来操作SQL完成对数据的读写。
+- Web SQL 数据库 API 并不是 HTML5 规范的一部分，但是它是一个独立的规范，引入了一组使用 SQL 操作客户端数据库的 APIs。
+- Web SQL 数据库可以在最新版的 Safari, Chrome 和 Opera 浏览器中工作
+- 核心方法：
+  - openDatabase：这个方法使用现有的数据库或者新建的数据库创建一个数据库对象。 
+  - transaction：这个方法让我们能够控制一个事务，以及基于这种情况执行提交或者回滚。
+  - executeSql：这个方法用于执行实际的 SQL 查询。
+
+##### 1.打开数据库
+
+可以使用 openDatabase() 方法来打开已存在的数据库，如果数据库不存在，则会创建一个新的数据库 
+
+```
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+```
+
+openDatabase() 方法对应的五个参数说明：
+
+1. 数据库名称
+2. 版本号
+3. 描述文本
+4. 数据库大小
+5. 创建回调
+
+第五个参数，创建回调会在创建数据库后被调用。
+
+##### 2.查询数据
+
+```javascript
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+db.transaction(function (tx) {  
+   tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+});
+```
+
+##### 3.插入数据
+
+```javascript
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+db.transaction(function (tx) {
+   tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+   tx.executeSql('INSERT INTO LOGS (id, log) VALUES (1, "W3Cschool教程")');
+   tx.executeSql('INSERT INTO LOGS (id, log) VALUES (2, "www.w3cschool.cn")');
+});
+```
+
+使用动态值来插入数据
+
+```javascript
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+db.transaction(function (tx) {  
+  tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+  tx.executeSql('INSERT INTO LOGS (id,log) VALUES (?, ?)', [e_id, e_log]);
+});
+```
+
+##### 4.读取数据
+
+```javascript
+var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+
+db.transaction(function (tx) {
+   tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+   tx.executeSql('INSERT INTO LOGS (id, log) VALUES (1, "W3Cschool教程")');
+   tx.executeSql('INSERT INTO LOGS (id, log) VALUES (2, "www.w3cschool.cn")');
+});
+
+db.transaction(function (tx) {
+   tx.executeSql('SELECT * FROM LOGS', [], function (tx, results) {
+      var len = results.rows.length, i;
+      msg = "
+查询记录条数: " + len + "
+
+";
+      document.querySelector('#status').innerHTML +=  msg;
+	
+      for (i = 0; i < len; i++){
+         alert(results.rows.item(i).log );
+      }
+	
+   }, null);
+});
+```
+
+##### 5.删除记录
+
+```javascript
+db.transaction(function (tx) {
+    tx.executeSql('DELETE FROM LOGS  WHERE id=1');
+});
+```
+
+删除指定的数据id也可以是动态的
+
+```javascript
+db.transaction(function(tx) {
+    tx.executeSql('DELETE FROM LOGS WHERE id=?', [id]);
+});
+```
+
+##### 6.更新记录
+
+```javascript
+db.transaction(function (tx) {
+    tx.executeSql('UPDATE LOGS SET log=\'www.w3cschool.cn\' WHERE id=2');
+});
+```
+
+更新指定的数据id也可以是动态的 
+
+```javascript
+db.transaction(function(tx) {
+    tx.executeSql('UPDATE LOGS SET log=\'www.w3cschool.cn\' WHERE id=?', [id]);
+});
+```
+
+### 十四、应用程序缓存
+
+使用 HTML5，通过创建 cache manifest 文件，可以轻松地创建 web 应用的离线版本。这意味着，你可以在没有网络连接的情况下进行访问 
+
+应用程序缓存的优势
+
+1. 离线浏览 - 用户可在应用离线时使用它们
+2. 速度 - 已缓存资源加载得更快
+3. 减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源。
+
+#### 启用应用程序缓存
+
+- 在文档的<html> 标签中包含 manifest 属性
+- 每个指定了 manifest 的页面在用户对其访问时都会被缓存。如果未指定 manifest 属性，则页面不会被缓存除非在 manifest 文件中直接指定了该页面。manifest 文件的建议的文件扩展名是：".appcache"。
+- manifest 文件需要配置正确的 MIME-type，即 "text/cache-manifest"。必须在 web 服务器上进行配置
+
+#### Manifest 文件
+
+manifest 文件是简单的文本文件，它告知浏览器被缓存的内容（以及不缓存的内容）。
+
+manifest 文件可分为三个部分：
+
+- CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存
+- NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存
+- FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
+
+```
+CACHE MANIFEST        
+# 2012-02-21 v1.0.0       
+/theme.css        
+/logo.gif        
+/main.js        
+#CACHE MANIFEST 小节规定当 manifest 文件加载后，浏览器会从网站的根目录下载这三个文件  
+NETWORK:        
+login.php        
+#NETWORK 小节规定文件 "login.php" 永远不会被缓存，且离线时是不可用的   
+FALLBACK:       
+/html/ /offline.html
+#FALLBACK 小节规定如果无法建立因特网连接，则用 "offline.html" 替代 /html5/ 目录中的所有文件
+```
+
+#### 更新缓存
+
+一旦应用被缓存，它就会保持缓存直到发生下列情况：
+
+- 用户清空浏览器缓存
+- manifest 文件被修改（参阅下面的提示）
+- 由程序来更新应用缓存
+
+#### 关于应用程序缓存的说明
+
+- 一旦文件被缓存，则浏览器会继续展示已缓存的版本，即使您修改了服务器上的文件。为了确保浏览器更新缓存，您需要更新 manifest 文件 
+- 浏览器对缓存数据的容量限制可能不太一样（某些浏览器设置的限制是每个站点 5MB） 
+
+### 十五、H5 Web Workers 
+
+web worker 是运行在后台的 JavaScript，不会影响页面的性能
+
+更好的解释是，你可以使用web worker提供的一种简单的方法来为web内容在后台线程中运行脚本，这些线程在执行任务的过程中并不会干扰用户界面！
+
+#### (1)浏览器支持检测
+
+```javascript
+ if(typeof(Worker)!=="undefined")
+   {
+   // 是的! Web worker 支持!
+   // 一些代码.....
+   }
+ else
+   {
+   // //抱歉! Web Worker 不支持
+   } 
+```
+
+#### (2)创建 Web Worker 文件
+
+在一个外部 JavaScript 中创建 web worker
+
+```javascript
+ var i=0;
+ function timedCount()
+ {
+ i=i+1;
+ postMessage(i);//postMessage() 方法用于向 HTML 页面传回一段消息。
+ setTimeout("timedCount()",500);
+ }
+ timedCount(); 
+//web worker 通常不用于如此简单的脚本，而是用于更耗费 CPU 资源的任务。
+```
+
+#### (3)创建 Web Worker 对象
+
+- ##### 从 HTML 页面调用 web worker 文件 
+
+- ##### 检测是否存在 worker，如果不存在则创建一个新的 web worker 对象 
+
+  ```javascript
+  if(typeof(w)=="undefined"){
+     w=new Worker("demo_workers.js");
+  }
+  ```
+
+- ##### 从 web worker 发送和接收消息 
+
+  ```
+   w.onmessage=function(event){
+   	document.getElementById("result").innerHTML=event.data;
+   }; 
+  ```
+
+  当 web worker 传递消息时，会执行事件监听器中的代码。event.data 中存有来自 event.data 的数据 
+
+#### (4)终止 Web Worker
+
+- 创建 web worker 对象后，它会继续监听消息（即使在外部脚本完成之后）直到其被终止为止。
+
+- terminate() 方法可以终止 web worker，并释放浏览器/计算机资源
+
+  ```
+  w.terminate(); 
+  ```
+
+#### (5)Web Workers 和 DOM
+
+由于 web worker 位于外部文件中，它们无法访问下例 JavaScript 对象：
+
+- window 对象
+- document 对象
+- parent 对象
+
+### 十六、H5 SSE
+
+- 服务器发送事件（Server-sent Events）是**基于 WebSocket 协议**的一种服务器向客户端发送事件和数据的单向通讯。
+- HTML5 服务器发送事件（server-sent event）允许网页获得来自服务器的更新。
+- Server-Sent 事件指的是网页自动获取来自服务器的更新。 
+
+#### 接收 Server-Sent 事件通知
+
+EventSource 对象用于接收服务器发送事件通知 
+
+```javascript
+var source=new EventSource("demo_sse.php");
+//创建一个新的 EventSource 对象，然后规定发送更新的页面的 URL（本例中是 "demo_sse.php"）
+//每接收到一次更新，就会发生 onmessage 事件
+source.onmessage=function(event){
+	document.getElementById("result").innerHTML+=event.data + "<br>";
+	//当 onmessage 事件发生时，把已接收的数据推入 id 为 "result" 的元素中
+};
+```
+
+#### 检测 Server-Sent 事件支持
+
+```javascript
+if(typeof(EventSource)!=="undefined"){
+   // 浏览器支持 Server-Sent
+   // 一些代码.....
+}else{
+   // 浏览器不支持 Server-Sent..
+}
+```
+
+#### 服务器端发送事件流
+
+- 需要能够发送数据更新的服务器（比如 PHP 和 ASP） 
+- 把 "Content-Type" 报头设置为 "text/event-stream" 
+- 向网页刷新输出数据  
+
+#### EventSource 对象
+
+| 事件      | 描述                     |
+| --------- | ------------------------ |
+| onopen    | 当通往服务器的连接被打开 |
+| onmessage | 当接收到消息             |
+| onerror   | 当发生错误               |
+
+### 十七、H5 WebSocket
+
+#### (1)WebSocket介绍
+
+- WebSocket是HTML5开始提供的一种在单个 TCP 连接上进行**全双工通讯的协议**。
+- 在WebSocket API中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以**数据互相传送**。
+- 浏览器通过 **JavaScript** 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。
+- 当你获取 Web Socket 连接后，你可以通过 **send()** 方法来向服务器发送数据，并通过 **onmessage** 事件来接收服务器返回的数据。
+
+以下 API 用于创建 WebSocket 对象。
+
+```
+var Socket = new WebSocket(url, [protocal] );
+```
+
+以上代码中的第一个参数 url, 指定连接的 URL。第二个参数 protocol 是可选的，指定了可接受的子协议。
+
+#### (2)WebSocket属性
+
+| 属性                  | 描述                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| Socket.readyState     | 只读属性 **readyState** 表示连接状态，可以是以下值：                                                    0 - 表示连接尚未建立。                                                                                                         1 - 表示连接已建立，可以进行通信。                                                                      2 - 表示连接正在进行关闭。                                                                                                   3 - 表示连接已经关闭或者连接不能打开。 |
+| Socket.bufferedAmount | 只读属性 **bufferedAmount** 已被 send() 放入正在队列中等待传输，但是还没有发出的 UTF-8 文本字节数。 |
+
+#### (3)WebSocket 事件
+
+| 事件    | 事件处理程序     | 描述                       |
+| ------- | ---------------- | -------------------------- |
+| open    | Socket.onopen    | 连接建立时触发             |
+| message | Socket.onmessage | 客户端接收服务端数据时触发 |
+| error   | Socket.onerror   | 通信发生错误时触发         |
+| close   | Socket.onclose   | 连接关闭时触发             |
+
+#### (4)WebSocket 方法
+
+| 方法           | 描述             |
+| -------------- | ---------------- |
+| Socket.send()  | 使用连接发送数据 |
+| Socket.close() | 关闭连接\        |
+
+#### (5)WebSocket实质
+
+WebSocket 协议本质上是一个基于 TCP 的协议。
+
+为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息"Upgrade: WebSocket"表明这是一个申请协议升级的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接。
+
+#### (6)WebSocket使用
+
+- ##### 安装 pywebsocket
+
+  - 创建一个支持 WebSocket 的服务。首先下载 [mod_pywebsocket](https://github.com/google/pywebsocket)
+
+    - mod_pywebsocket 需要 python 环境支持
+    - mod_pywebsocket 是一个 Apache HTTP 的 Web Socket扩展
+
+  - 安装步骤
+
+    - 解压下载的文件。
+
+    - 进入 **pywebsocket** 目录。
+
+    - 执行命令：
+
+      ```
+      $ python setup.py build
+      $ sudo python setup.py install
+      ```
+
+    - 查看文档说明:
+
+      ```
+      $ pydoc mod_pywebsocket
+      ```
+
+- ##### 开启服务
+
+  在 **pywebsocket/mod_pywebsocket** 目录下执行以下命令：
+
+  ```
+  $ sudo python standalone.py -p 9998 -w ../example/
+  ```
+
+  以上命令会开启一个端口号为 9998 的服务，使用 -w 来设置处理程序 echo_wsh.py 所在的目录。
+
+### 十八、H5 代码规范
+
+- 使用正确的文档类型 <!DOCTYPE html> 
+
+- 推荐使用小写元素名
+
+- 建议每个元素都要添加关闭标签 
+
+- 关闭空的 HTML 元素
+
+- 推荐使用小写字母属性名 
+
+- 属性值推荐使用引号 
+
+- 等号前后推荐少用空格 
+
+- 每行代码尽量少于 80 个字符 
+
+- 空行和缩进
+
+  不要无缘无故添加空行。
+
+  为每个逻辑功能块添加空行，这样更易于阅读。
+
+  缩进使用两个空格，不建议使用 TAB。
+
+  比较短的代码间不要使用不必要的空行和缩进。
+
+- 不推荐省略 <html>  <head>和 <body> 标签。
+
+- <title> 元素是必须的，标题名描述了页面的主题 
+
+- 注释可以写在 <!-- 和 --> 中 
+
+  比较长的评论可以在 <!-- 和 --> 中分行写 
+
+- **样式表规范**
+  - 将左花括号与选择器放在同一行。
+  - 左花括号与选择器间添加以空格。
+  - 使用两个空格来缩进。
+  - 冒号与属性值之间添加已空格。
+  - 逗号和符号之后使用一个空格。
+  - 每个属性与值结尾都要使用符号。
+  - 只有属性值包含空格时才使用引号。
+  - 右花括号放在新的一行。
+  - 每行最多 80 个字符。
+
+- 建议统一使用小写的文件名 
+- 文件后缀名
+  - HTML 文件后缀可以是 **.html** (或r **.htm**)。
+  - CSS 文件后缀是 **.css** 。
+  - JavaScript 文件后缀是 **.js** 。

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <p>计数： <output id="result"></output></p>
+    <button onclick="startWorker()">开始工作</button>
+    <button onclick="stopWorker()">停止工作</button>
+
+    <p><strong>注意：</strong> Internet Explorer 9 及更早 IE 版本浏览器不支持 Web Workers.</p>
+    <p>谷歌浏览器的安全机制可能会阻止在本地运行</p>
+    <script type="text/javascript">
+        var w;
+
+        function startWorker() {
+            if (typeof (Worker) !== "undefined") {
+                if (typeof (w) == "undefined") {
+                    w = new Worker("workerDemo.js");
+                }
+                w.onmessage = function (event) {
+                    document.getElementById("result").innerHTML = event.data;
+                };
+            } else {
+                document.getElementById("result").innerHTML = "抱歉，你的浏览器不支持 Web Workers...";
+            }
+        }
+
+        function stopWorker() {
+            w.terminate();
+            w = undefined;
+        }
+    </script>
+
+</body>
+
+</html>
