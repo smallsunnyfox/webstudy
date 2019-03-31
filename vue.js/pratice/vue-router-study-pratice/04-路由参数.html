@@ -32,7 +32,7 @@
             created() {
                 //抛出两个对象$router和$route挂载到Vue的实例化对象上
                 //console.log(this.$router);
-                //console.log(this.$route);
+                console.log(this.$route);
                 console.log(this.$route.params.id);
                 //获取参数再向后台发请求
             },
@@ -40,7 +40,11 @@
         var UserQuery = {
             template:'\
                 <div>我是用户2</div>\
-            '
+            ',
+            created() {
+                console.log(this.$route);
+                console.log(this.$route.query.userId);
+            },
         }
         //4.创建router对象
         var router = new VueRouter({
