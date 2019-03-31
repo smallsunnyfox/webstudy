@@ -84,3 +84,11 @@ window.onhashchange = function(){
 - 嵌套路由其实是一个router-view中嵌套另外一个router-view
 - 应用于子路由是不同的页面结构的情况下
 - 例如：/home/music ===>/home/movie
+
+#### (6)动态路由匹配
+
+- 应用于多个路由渲染一个组件的情况下
+- 复用一个组件会导致组件的生命周期钩子不会再被调用 
+- 可以通过watch监听$route路由信息的变化从而发起不同的Ajax请求再渲染组件
+- keep-alive在路由中的使用
+  - 在需要缓存的router-view外加上keep-alive标签

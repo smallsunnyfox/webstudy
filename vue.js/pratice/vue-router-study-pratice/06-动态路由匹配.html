@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>动态路由匹配</title>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script src="../node_modules/vue/dist/vue.min.js" type="text/javascript"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        /*
+        提醒一下，当使用路由参数时，例如从 /user/foo 导航到 /user/bar
+        原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建
+        复用则显得更加高效。不过，这也意味着组件的生命周期钩子不会再被调用。
+        */
+        var content = {
+            data() {
+                return {
+                    msg:''
+                }
+            },
+            template:'\
+                <div>\
+                    我是{{msg}}\
+                </div>\
+            ',
+            created() {
+                this.msg = 'frontend'
+            },
+            watch: {
+                //在当前的组件内部监听路由信息的变化
+                '$route'(to,from){
+                    //发送ajax请求
+                    this.msg = to.params.id;
+                }   
+            }
+        }
+        var timeline = {
+            template:'\
+                <div id="timeline">\
+                    <router-link :to="{name:\'content\',params:{id:\'frontend\'}}">前端</router-link>\
+                    <router-link :to="{name:\'content\',params:{id:\'backend\'}}">后端</router-link>\
+                    <router-view></router-view>\
+                </div>\
+            '
+        }
+        var pins = {
+            template:'\
+                <div>\
+                    我是沸点\
+                </div>\
+            '
+        }
+        var router = new VueRouter({
+            routes:[
+                {
+                    path:'/timeline',
+                    component:timeline,
+                    children:[
+                        {
+                            name:'content',
+                            //动态路由参数以冒号开头
+                            path:'/timeline/:id',
+                            component:content
+                        }
+                    ]
+                },
+                {
+                    path:'/pins',
+                    component:pins
+                }
+            ]
+        })
+        
+        var App = {
+            template:'\
+                <div>\
+                    <router-link to="/timeline">首页</router-link>\
+                    <router-link to="/pins">沸点</router-link>\
+                    <router-view></router-view>\
+                </div>\
+            '
+        }
+
+        new Vue({
+            el:'#app',
+            router,
+            template:'<App></App>',
+            data(){
+                return {
+
+                }
+            },
+            components:{
+                App
+            }
+        });               
+    </script>
+</body>
+</html>
