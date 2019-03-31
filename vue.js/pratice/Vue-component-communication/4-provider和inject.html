@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>组件通信方法4:provider和inject</title>
+    <style>
+        .box {
+            border: 1px solid darkcyan;
+            margin: 10px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script src="../node_modules/vue/dist/vue.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        /*
+        第四个方法
+        父组件中通过provide来提供变量，然后在子组件中通过inject来注入变量。
+        不论子组件有多深，只要调用了inject那么就可以注入provider中的数据
+        而不是局限于只能从当前父组件的props属性来获取数据
+        只要在父组件的生命周期内，子组件都可以调用
+        */
+        var child = {
+            data() {
+                return {
+                    msg:''   
+                }
+            },
+            template:'\
+                <div>我是孩子{{msg}}</div>\
+            ',
+            inject:['for'],
+            created() {
+                this.msg = this.for;
+            }
+        }
+        var parent = {
+            template:'\
+                <div>\
+                    <p>我是父亲</p>\
+                    <child class="box"></child>\
+                </div>\
+            ',
+            components:{
+                child
+            }
+        }
+        new Vue({
+            el:'#app',
+            data(){
+                return {
+                }
+            },
+            provide:{
+                for:'他爹'
+            },
+            template:'\
+                <div>\
+                    <h2>我是入口组件</h2>\
+                    <parent class="box"></parent>\
+                </div>\
+            ',
+            components:{
+                parent
+            }
+        });               
+    </script>
+</body>
+</html>

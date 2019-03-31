@@ -3,20 +3,109 @@
 <head>
     <meta charset="utf-8">
     <title>组件通信方法2:$attrs和$listeners</title>
+    <style>
+        .box{
+            border:1px solid darkcyan;
+            margin:10px;
+            padding-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="box">
+        <h2>我是入口组件</h2>
+        <h3>我的名字是:{{myname}}</h3>
+        <aaaa class="box" :name="myname" v-on:get-name="getName"></aaaa>
     </div>
+    <template id="aaa">
+        <div>
+            <h2>我是A组件</h2>
+            <input type="text" v-model="$attrs.name" @input="changeName($attrs.name)"/>
+            <bbbb class="box" v-bind="$attrs" v-on="$listeners"></bbbb>
+        </div>
+    </template>
+    <template id="bbb">
+        <div>
+            <h2>我是B组件</h2>
+            <input type="text" v-model="$attrs.name" @input="changeName($attrs.name)" />
+            <cccc class="box" v-bind="$attrs" v-on="$listeners"></cccc>
+        </div>
+    </template>
+    <template id="ccc">
+        <div>
+            <h2>我是C组件</h2>
+            <input type="text" v-model="$attrs.name" @input="changeName($attrs.name)" />
+            <h2></h2>
+        </div>
+    </template>
     <script src="../node_modules/vue/dist/vue.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-    ////第二种方法用于解决组件嵌套多层关系
+        //第二种方法用于解决组件嵌套多层关系
+        /*
+        第一种方法处理父子组件之间的数据传输有一个问题：
+        如果父组件A下面有子组件B，组件B下面有组件C，这是如果组件A想传递数据给组件C怎么办呢
+        如果采用第一种方法必须使用props多层传递实现较为复杂
+        Vue2.4开始提供了$attrs和$listeners来解决这个问题
+        能够解决组件多层嵌套时的通信
+        */
+        var cccc = {
+            data() {
+                return {
+                }
+            },
+            template:'#ccc',
+            methods: {
+                changeName(val){
+                    this.$emit('get-name',val);
+                }
+            }
+        }
+        var bbbb = {
+            data() {
+                return {
+                }
+            },
+            template:'#bbb',
+            components:{
+                cccc
+            },
+            methods: {
+                changeName(val){
+                    this.$emit('get-name',val);
+                }
+            }
+        }
+        var aaaa = {
+            data() {
+                return {
+                    
+                }
+            },
+            template:'#aaa',
+            components:{
+                bbbb  
+            },
+            methods: {
+                changeName(val){
+                    this.$emit('get-name',val);
+                }
+            },
+        }
         new Vue({
             el:'#app',
             data(){
                 return {
-
+                    myname:'zsw'
                 }
-            }
+            },
+            components:{
+                aaaa
+            },
+            methods: {
+                getName(val){
+                    this.myname=val;
+                }
+            },
         });               
     </script>
 </body>
