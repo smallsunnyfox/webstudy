@@ -1,0 +1,17 @@
+{
+  "name": "pratice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "vue": "^2.6.10",
+    "webpack-cli": "^3.3.0",
+    "webpack": "^4.29.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "npx webpack ./main.js --output-filename ./build.js --output-path . --mode development"
+  },
+  "author": "zsw",
+  "license": "ISC"
+}
