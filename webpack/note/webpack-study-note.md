@@ -63,7 +63,7 @@ loader 用于对模块的源代码进行转换。loader 可以使你在 `import`
 
 ##### 下载并配置
 
-对css文件的处理
+[对css文件的处理](https://blog.csdn.net/hjh15827475896/article/details/86249370)
 
 `npm i css-loader style-loader -D`
 
@@ -85,7 +85,7 @@ module:{
 }
 ```
 
-对图片文件的处理
+[对图片文件的处理](https://blog.csdn.net/hjh15827475896/article/details/86249370)
 
 `npm i url-loader file-loader img-loader -D`
 
