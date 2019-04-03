@@ -4,9 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "vue": "^2.6.10",
-    "webpack-cli": "^3.3.0",
-    "webpack": "^4.29.6"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -21,12 +19,15 @@
     "url-loader": "^1.1.2",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
   },
   "scripts": {
     "build": "npx webpack ./main.js --output-filename ./build.js --output-path . --mode development",
     "dev": "npx webpack-dev-server --open --hot --inline --port 7040 --config ./webpack.dev.config.js",
-    "prod": "npx webpack --config ./webpack.prod.config.js"
+    "prod": "npx webpack --config ./webpack.prod.config.js",
+    "multientry": "npx webpack --config ./webpack.multientry.config.js"
   },
   "author": "zsw",
   "license": "ISC"
