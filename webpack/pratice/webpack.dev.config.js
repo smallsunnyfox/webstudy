@@ -41,6 +41,20 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                //处理es6 7 8
+                test:/\.js$/,
+                exclude:/node_modules/,
+                use:[
+                    {
+                        loader:'babel-loader',
+                        options:{
+                            presets:['env'],//处理关键字
+                            plugins:['transform-runtime'],//处理函数    
+                        }
+                    }
+                ]
             }
         ]
     },

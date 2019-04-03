@@ -55,9 +55,9 @@ module.exports = {
 
 导入css文件后编译出错需要使用loader解决直接在 JavaScript 模块中 `import` CSS文件的问题
 
-##### [loader](https://www.webpackjs.com/concepts/loaders/#configuration):
+##### [loader](https://www.webpackjs.com/concepts/loaders/#configuration)
 
-[如何编写一个loader](https://www.webpackjs.com/contribute/writing-a-loader/)
+##### [如何编写一个loader](https://www.webpackjs.com/contribute/writing-a-loader/)
 
 loader 用于对模块的源代码进行转换。loader 可以使你在 `import` 或"加载"模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript，或将内联图像转换为 data URL。loader 甚至允许你直接在 JavaScript 模块中 `import` CSS文件！
 
@@ -102,3 +102,47 @@ module:{
 	]
 ```
 
+#### (5)html-webpack-plugin插件的使用
+
+##### 下载
+
+`npm i html-webpack-plugin -D`
+
+##### 配置
+
+引用
+
+`const HtmlWebpackPlugin = require('html-webpack-plugin');` 
+
+配置插件
+
+```js
+plugins:[
+        //插件
+        new HtmlWebpackPlugin({
+            template:'./src/index.html'//参照物
+        })
+]
+```
+
+#### (6)webpack-dev-server
+
+##### 下载
+
+`npm install webpack-dev-server --save-dev`
+
+##### 配置
+
+常用配置参数
+
+--open 自动打开浏览器
+
+--hot 热更新，不在舒心的情况下替换css样式
+
+--inline 自动刷新
+
+--port 9999 制定端口
+
+--process 显示编译进度
+
+在package.json中配置之后即可使用

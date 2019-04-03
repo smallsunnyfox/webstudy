@@ -9,7 +9,7 @@ var App = {
     template:'\
     <div>我老婆\
         <br>\
-        <img height="700px" width="600px" :src="imgSrc" alt="老婆"/>\
+        <img height="25%" width="25%" :src="imgSrc" alt="老婆"/>\
     </div>\
     '
 };
