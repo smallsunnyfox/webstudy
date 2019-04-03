@@ -205,3 +205,106 @@ use:[
 	}
 ]
 ```
+
+#### (8)单文件引入
+
+##### 下载
+
+```
+npm install -D vue-loader vue-template-compiler
+```
+
+##### 配置
+
+```
+// webpack.config.js
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+module.exports = {
+  module: {
+    rules: [
+      // ... 其它规则
+      {
+        test: /\.vue$/,
+        use:[
+        	{loader:'vue-loader'}
+        ]
+      }
+    ]
+  },
+  plugins: [
+    // 请确保引入这个插件！
+    new VueLoaderPlugin()
+  ]
+}
+```
+
+**这个插件是必须的！** 它的职责是将你定义过的其它规则复制并应用到 .vue 文件里相应语言的块。例如，如果你有一条匹配 /\.js$/ 的规则，那么它会应用到 .vue 文件里的 <script> 块。
+
+#### (9)[CommonsChunkPlugin](https://www.webpackjs.com/plugins/commons-chunk-plugin/)的使用
+
+##### 介绍
+
+CommonsChunkPlugin主要用来提取第三方库和公共模块，避免首屏加载的bundle文件或者按需加载的bundle文件体积过大，从而导致加载时间过长，着实是优化的一把利器
+
+##### chunk的分类
+
+- webpack当中配置的入口文件（entry）是chunk，
+
+  可以理解为**entry chunk**
+
+- 入口文件以及它的依赖文件通过code splite(代码分割)出来的也是chunk，
+
+  可以理解为**children chunk**
+
+- 通过CommonsChunkPlugin创建出来的文件也是chunk，
+
+  可以理解为**commons chunk**
+
+##### CommonsChunkPlugin可配置的属性
+
+- name
+
+  可以是已经存在的chunk（一般指入口文件）对应的name，那么就会把公共模块代码合并到这个chunk上；否则，会创建名字为name的commons chunk进行合并
+
+- filename
+
+  指定commons chunk的文件名
+
+- chunks
+
+  指定source chunk，即指定从哪些chunk当中去找公共模块，省略该选项的时候，默认就是entry chunks
+
+- minChunks
+
+  既可以是数字，也可以是函数，还可以是Infinity
+
+##### 验证三种情况
+
+- 不分离出第三方库和自定义公共模块
+- 分离出第三方库、自定义公共模块、webpack运行文件，但它们在同一个文件夹
+- 单独分离第三方库、自定义公共模块、webpack运行文件，各自在不同文件
+
+#### (10)webpack异步加载的原理
+
+##### webpack.ensure的介绍
+
+有人称它为异步加载，也有人说做代码切割，其实它就是把js模块给独立导出一个.js文件的，然后使用这个模块的时候，webpack会构造script dom元素，由浏览器发起异步请求这个js文件。
+
+##### webpack.ensure的原理
+
+它就是把一些js模块给独立出一个个js文件，然后需要用到的时候，再创建一个script对象，加入到document.head对象中即可，浏览器会自动帮我们发起请求，去请求这个js文件，再写个回调去定义得到这个js文件后需要做什么业务逻辑操作
+
+##### 实例
+
+main.js
+
+- A.js封装了aBtn按钮点击后执行的业务逻辑
+- B.js封装了bBtn按钮点击后执行的业务逻辑
+- vue.js封装了main.js需要利用的包
+
+针对上面的需求优化方案如下
+
+假设三个文件都是非常大的文件因为A B 都不是main.js必须有的，即未来可能发生的操作，那么把它们利用异步加载，当发生的时候再去加载就行了
+
+vue.js是main.js立即马上依赖的工具箱，但是它又非常的大，所以将其配置打包成一个公共模块，利用浏览器的并发加载，加快下载速度，即可完成优化。

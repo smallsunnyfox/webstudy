@@ -27,7 +27,8 @@
     "build": "npx webpack ./main.js --output-filename ./build.js --output-path . --mode development",
     "dev": "npx webpack-dev-server --open --hot --inline --port 7040 --config ./webpack.dev.config.js",
     "prod": "npx webpack --config ./webpack.prod.config.js",
-    "multientry": "npx webpack --config ./webpack.multientry.config.js"
+    "multientry": "npx webpack --config ./webpack.multientry.config.js",
+    "ens":"npx webpack --config ./webpack.ensure.config.js"
   },
   "author": "zsw",
   "license": "ISC"
