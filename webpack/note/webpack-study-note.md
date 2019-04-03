@@ -146,3 +146,62 @@ plugins:[
 --process 显示编译进度
 
 在package.json中配置之后即可使用
+
+#### (7)es6的解析
+
+##### 模块介绍
+
+- babel-core
+
+  javascript babel-core 的作用是把js代码分析成ast(抽象语法树)，方便各个插件分析语法进行相应的处理。有些新语法在低版本js中是不存在的，如箭头函数，rest函数，函数默认值，这种语言层面的不兼容只能通过将代码转为ast，分析器语法后再转为低版本js
+
+  babel转译器本身，提供了babel的转译API，如babel.transform等，用于对代码进行转译。像webpack的babel-loader就是调用这些API来完成转译过程的。
+
+- babel-loader
+
+  将es6的代码通过transform进行转译
+
+- babel-preset-env
+
+  babel官方做了一些预设的插件集，称之为preset
+
+  以JS标准为例，babel提供了如下的一些preset：
+
+  - es2015
+  - es2016
+  - es2017
+  - env
+
+  es20xx的preset只转译该年份批准的标准，而env则指代最新的标准，包含了latest和es20xx各年份
+
+- babel-plugin-transform-runtime
+
+  babel默认只转换新的Javascript语法，而不转换新的API。例如：Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转译。如果想使用这些新的对象和方法，必须使用babel-polyfill，为当前环境提供一个垫片。
+
+  [babel的polyfill和runtime的区别](https://segmentfault.com/q/1010000005596587?from=singlemessage%isappinstalled=1 )
+
+##### 模块下载
+
+```
+npm install babel-core babel-loader babel-preset-env 
+babel-plugin-transform-runtime -D
+```
+
+##### 模块配置
+
+在webpack-dev-config.js中配置loader
+
+```
+//处理es6 7 8
+test:/\.js$/,
+exclude:/node_modules/,
+use:[
+	{
+		loader:'babel-loader',
+		options:{
+			presets:['env'],//处理关键字
+			plugins:['transform-runtime'],//处理函数    
+		}
+	}
+]
+```

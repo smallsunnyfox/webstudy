@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     mode: 'development',
     //入口
@@ -55,6 +56,14 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test:/\.vue$/,
+                use:[
+                    {
+                        loader:'vue-loader'
+                    }
+                ]
             }
         ]
     },
@@ -62,6 +71,9 @@ module.exports = {
         //插件
         new HtmlWebpackPlugin({
             template:'./src/index.html'//参照物
+        }),
+        new VueLoaderPlugin({
+            
         })
     ],
     watch:true,//文件监视改动 自动产出build.js
