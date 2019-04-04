@@ -161,6 +161,10 @@ $ npm install vue
 
     v-for = "(value,key) in object" 遍历对象
 
+    **当给组件使用v-for遍历的时候，一定要加上 `:key` 属性，对应的key的标识一定是唯一的，要么是数据库里存储的ID，要么是遍历数组的索引**
+
+    **key的作用主要是为了高效地更新虚拟DOM,避免让vue去计算DOM**
+
   - v-model
 
     - 用于双向数据绑定，只会体现在UI控件中，只能应用在有value属性的元素 

@@ -34,7 +34,8 @@
                 '$route'(to,from){
                     //发送ajax请求
                     this.msg = to.params.id;
-                }   
+                }
+                //'$route':'fetchdata' 监听路由的导航钩子 在路由进入之后调用fetchdata方法 
             }
         }
         var timeline = {
