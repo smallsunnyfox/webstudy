@@ -2,10 +2,23 @@ import Vue from 'vue'
 //1.导入Vuex
 import Vuex from 'vuex'
 //2.注入到Vue中
+import moduleA from './store/moduleA/index'
 Vue.use(Vuex)
-
 export default new Vuex.Store({
-  //存放Vuex的五大将
+  modules:{
+    a:moduleA
+  }
+})
+
+
+
+
+/*
+export default new Vuex.Store({
+  modules:{
+    a:moduleA
+  },
+  //Vuex的五大将
   state: {
     count:1,
     mymsg:'学习vuex',
@@ -43,3 +56,4 @@ export default new Vuex.Store({
     }
   }
 })
+*/

@@ -62,10 +62,10 @@ export default {
   // 3.使用对象的展开运算符
   computed:{
     ...mapState({
-      count:state=>state.count,
+      count:state=>state.a.count,
       countAlisa:'count',
       countLocalState(state){
-        return state.count + this.num
+        return state.a.count + this.num
       }
     })
   }

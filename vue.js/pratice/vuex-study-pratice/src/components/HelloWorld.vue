@@ -8,12 +8,19 @@
       </li>
     </ul>
     <h3>lists[2]:{{item}}</h3>
+    <h3>{{myProp}}</h3>
+    <button @click='changeStateProp'>修改state中的数据</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
+  methods: {
+    changeStateProp(){
+      this.$store.dispatch('changeStateProp',{name:'张三'});
+    }
+  },
   computed: {
     count(){
       return this.$store.state.count;
@@ -23,6 +30,9 @@ export default {
     },
     item(){
       return this.$store.getters.item(2);
+    },
+    myProp(){
+      return this.$store.getters.myProp;
     } 
   },
 }
