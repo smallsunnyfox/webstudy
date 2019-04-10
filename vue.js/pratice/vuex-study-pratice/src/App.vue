@@ -73,8 +73,7 @@ export default {
   computed: {
     //当前组件的计算属性的方法跟store中state的key是一样的可以使用此种简便方式
     ...mapState([
-      'count',
-      
+      'count',  
     ])
   },
   */
