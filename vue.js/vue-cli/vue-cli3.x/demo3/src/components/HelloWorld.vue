@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h2 v-for="(item,index) in test" :key="index">{{ item }}</h2>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -33,8 +34,32 @@
 <script>
 export default {
   name: 'HelloWorld',
+  data () {
+    return {
+      test: []  
+    }
+  },
   props: {
     msg: String
+  },
+  beforeCreate() {
+    console.log('beforeCreate', this.test)
+  },
+  created() {
+    console.log('created', this.test)
+  },
+  beforeMount() {
+    console.log('beforeMount', this.test)
+  },
+  mounted () {
+    console.log('mounted', this.test)
+    this.test = ['title1', 'title2', 'title3']
+  },
+  beforeUpdate () {
+    console.log('beforeUpdate', this.test)
+  },
+  updated () {
+    console.log('updated', this.test)
   }
 }
 </script>
