@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>smallsunnyfox's audio player</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="title">
+      <img src="./icon/ziyuanldpi.png" width="24px" height="24px">
+      &nbsp;AudioPlayer
+    </div>
+    <div class="description">
+      慢慢喜欢你&nbsp;-&nbsp;不靠谱组合
+    </div> 
+    <div class="name">
+      SmallSunnyFox
+    </div>
+  </header>
+  <section>
+    <div class="content">
+      <img id="image" src="assets/images/1.jpg">
+    </div>
+  </section>
+  <footer>
+    <div class="control">
+      <img src="icon/SanMiAppoutlinei_1.png" 
+             width="28px" 
+             height="28px"
+             id="prev"
+             style="margin-left:5px;">
+      <img src="icon/ziyuanldpi_6.png" 
+      width="28px" 
+             height="28px"
+             id="play"
+             style="margin-left:5px;"> 
+             <!-- 3暂停 6播放 -->
+      <img src="icon/ziyuanldpi_3.png" 
+      width="28px" 
+             height="28px"
+             id="pause"
+             class="yincang"
+             style="margin-left:5px;"> 
+      <img src="icon/SanMiAppoutlinei.png" 
+             width="28px" 
+             height="28px"
+             id="next"
+             style="margin-left:5px;">
+      <img src="icon/音量.png" 
+             width="28px" 
+             height="28px"
+             id="unmute"
+             style="margin-left:10px;">
+      <img src="icon/ziyuanldpi_1.png" 
+             class="yincang"
+             width="28px" 
+             height="28px"
+             id="mute"
+             style="margin-left:10px;">
+      <div class="volume" width="100">
+        <div class="vulumenum"></div>
+      </div>
+    </div>
+    <div class="progress" width="350">
+      <div class="line"></div>
+    </div>
+    <div class="timer">
+      <span class="current">00:00</span> /
+      <span class="total">00:00</span>  
+    </div>
+    <audio src="./assets/musics/1.mp3" id="music"></audio>
+  </footer>
+  <script src="player.js"></script>
+</body>
+</html>

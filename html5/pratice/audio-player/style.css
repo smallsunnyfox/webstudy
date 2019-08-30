@@ -1,0 +1,118 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  min-width:350px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Consolas';
+}
+header {
+  flex: 0.1 1 auto;
+  display: flex;
+  padding: 0 10px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #5f9aff;
+}
+.title {
+  display: flex;
+  font-size: 24px;
+  line-height: 24px;
+}
+.id {
+  display: none;
+}
+.description {
+  font-size: 24px;
+}
+.name {
+  font-size: 24px;
+}
+section {
+  flex: 1.2 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content img {
+  border-radius: 50%;
+  border: 15px solid #5f9aff;
+  width: 400px;
+  height: 400px;
+}
+footer {
+  flex: 0.1 1 auto;
+  padding: 0 10px;
+  background-color: #5f9aff;
+  display: flex;
+  padding: 0 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.control {
+  display: flex;
+  align-items: center;
+}
+.control img{
+  cursor: pointer;
+}
+.control .volume {
+  margin-left: 10px;
+	width: 100px;
+	height: 10px;
+	border-radius: 3px;
+	background-color: #555;
+	cursor: pointer;
+}
+.control .volume .vulumenum {
+	width: 0;
+  height: 100%;
+  border-radius: 3px;
+	background-color: #df45f9;
+}
+
+.yincang {
+  display: none;
+}
+.timer {
+  font-size: 20px;
+}
+.progress {
+	width: 350px;
+	height: 10px;
+	border-radius: 3px;
+	background-color: #555;
+	cursor: pointer;
+}
+.progress .line {
+	width: 0;
+  height: 100%;
+  border-radius: 3px;
+	background-color: #df45f9;
+}
+@media screen and (max-width: 900px) {
+  header {
+    padding: 10px;
+    flex-direction: column; 
+    justify-content: space-around;
+  }
+  header .title {
+    order: 1;
+  }
+  header .name {
+    order: 2;
+  }
+  header .description {
+    order: 3;
+  }
+  footer {
+    padding: 10px;
+    flex-direction: column; 
+    justify-content: space-around;
+  }
+  .content img {
+    width: 250px;
+    height: 250px;
+  }
+}
