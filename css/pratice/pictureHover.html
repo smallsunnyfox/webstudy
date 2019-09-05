@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .imgBox1 {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      z-index: 1;
+    }
+
+    .mask1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 320px;
+      height: 320px;
+      background: rgba(101, 101, 101, 0.6);
+      color: #ffffff;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 2;
+    }
+
+    .mask1 h3 {
+      text-align: center;
+    }
+    .mask1:hover {
+      transition: opacity 0.5s ease-in-out;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="imgBox1">
+    <img src="../../assets/images/1.JPG" alt="">
+    <div class="mask1">
+      <h3>我的头像</h3>
+    </div>
+  </div>
+  <script>
+    /* var imgBox = document.querySelector('.imgBox1');
+    var mask = document.querySelector('.mask1');
+    imgBox.onmouseover = function () {
+      mask.style.opacity = 1;
+    }
+    imgBox.onmouseleave = function () {
+      mask.style.opacity = 0;
+
+    } */
+  </script>
+</body>
+
+</html>
