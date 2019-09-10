@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS3 实现 Flip 翻转效果</title>
+  <style>
+    .container {
+      width: 300px;
+      height: 300px;
+      perspective: 1000;
+      transform-style: preserve-3d;
+    }
+    .flip {
+      position: relative;
+      transition: 1s;
+      transform-style: preserve-3d;
+    }
+    .flip img {
+      width: 300px;
+      height: 300px;
+    }
+    .front {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 300px;
+      height: 300px;
+      z-index:2;
+      backface-visibility: hidden;
+    }
+    .back {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 300px;
+      height: 300px;
+      backface-visibility: hidden;
+      transform:rotateY(-180deg);
+    }
+    .container:hover .flip {
+      transform:rotateY(180deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="flip">
+      <div class="front">
+        <img src="../../assets/images/1.JPG">
+      </div>
+      <div class="back">
+        <img src="../../assets/images/2.png">
+      </div>
+    </div>
+  </div>
+</body>
+</html>
